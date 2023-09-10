@@ -1,5 +1,8 @@
 <template>
-    <button @click="clickChildEvent">{{ text }}</button>
+    <button @click="clickChildEvent">
+        {{ text }}
+        <slot name="footer"></slot>
+    </button>
 </template>
 
 <script>

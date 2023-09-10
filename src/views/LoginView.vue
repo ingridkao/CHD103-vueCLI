@@ -38,7 +38,6 @@ export default {
 				console.error(json)
 				//....
 			})
-
 			// fetch('https://fakestoreapi.com/auth/login',{
 			// 	method:'POST',
 			// 	headers: new Headers({

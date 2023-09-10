@@ -17,9 +17,17 @@
     <router-view/>
   </main>
   <footer>
-    <Btn :text="'blue'" @clickEvent="clickParent"/>
-    <Btn :text="'red'"/>
-    <Btn/>
+    <Btn :text="btn1Name" @clickEvent="clickParent"/>
+    <Btn :text="'red'" />
+    <Btn >
+      <template v-slot:footer>
+        按鈕啊
+      </template>
+    </Btn>
+    {{ storeCount }}
+    <button @click="addStoreCount">+1</button>
+    {{ $store.state.color }}
+    <button @click="updateWebColor()">改顏色</button>
   </footer>
 </template>
 
@@ -30,9 +38,23 @@ export default {
     Btn
   },
   data(){
-    return {}
+    return {
+      btn1Name: '123213'
+    }
+  },
+  computed:{
+    storeCount(){
+      return this.$store.state.count
+    }
   },
 	methods:{
+    addStoreCount(){
+      this.$store.commit('increment')
+    },
+    updateWebColor(){
+      const newColor = this.$store.state.color === 'white'? 'dark': 'white' 
+      this.$store.commit('updateColor', newColor)
+    },
     logout(){
       localStorage.removeItem('token')
       this.$router.push('/login')
@@ -47,6 +69,7 @@ export default {
     },
     clickParent(text){
       console.log('clickParent:' + text);
+      this.btn1Name = 'AAAAA'
     }
   }
 } 
