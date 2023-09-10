@@ -7,12 +7,17 @@ const routes = [
     path: '/',
     name: 'home',
     component: HomeView,
-    meta: { requiresAuth: true }  // 加入meta屬性
-
+    meta: { 
+      title:'首頁',
+      requiresAuth: true 
+    }  // 加入meta屬性
   },
   {
     path: '/about',
     name: 'about',
+    meta: { 
+      title:'123',
+    },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -24,12 +29,6 @@ const routes = [
     // component: LoginView
     component: () => import(/* webpackChunkName: "login" */ '@/views/LoginView.vue')
   },
-  /**
-   * import User from '@/views/User/UserIndex.vue'
-      import UserHome from '@/views/User/UserHome.vue'
-      import UserProfile from '@/views/User/UserProfile.vue'
-   * 
-   */
   {
     path: '/product',
     name: 'products',
@@ -65,29 +64,41 @@ const router = createRouter({
 
 router.beforeEach((to, from) => {
   // 檢查用户是否已登录 並 ❗️避免無限重定向
-	if(to.meta.requiresAuth && to.name !== 'Login'){
-    // const api = `${process.env.APIPATH}/api/user/check`
-    // this.axios.post(api).then((response) => {
-    //   if(response.data.success){
-		// 		return true
-    //   }else{
-		// 		// 將用户重定向到login页面
-		// 		// return { name: 'Login' }
-		// 		return '/login'
-		// 	}
-    // }.catch(error=>{
-		// 	 // 返回 false 以取消导航
-		// 	 return false
-		// })
-
-    const isLogin = localStorage.getItem('token')
-    if(isLogin){
+  if(to.meta.requiresAuth && to.name !== 'login'){
+    const isAuth = localStorage.getItem('token')
+    console.log('檢查用户'+ isAuth);
+    if(isAuth){
+      // return '/about'
       return true
     }else{
       return '/login'
     }
-  } else {
-    return true
   }
 })
+  
+	// if(to.meta.requiresAuth && to.name !== 'Login'){
+  //   // const api = `${process.env.APIPATH}/api/user/check`
+  //   // this.axios.post(api).then((response) => {
+  //   //   if(response.data.success){
+	// 	// 		return true
+  //   //   }else{
+	// 	// 		// 將用户重定向到login页面
+	// 	// 		// return { name: 'Login' }
+	// 	// 		return '/login'
+	// 	// 	}
+  //   // }.catch(error=>{
+	// 	// 	 // 返回 false 以取消导航
+	// 	// 	 return false
+	// 	// })
+
+  //   const isLogin = localStorage.getItem('token')
+  //   if(isLogin){
+  //     return true
+  //   }else{
+  //     return '/login'
+  //   }
+  // } else {
+  //   return true
+  // }
+// })
 export default router
