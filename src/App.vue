@@ -17,12 +17,18 @@
     <router-view/>
   </main>
   <footer>
-    footer
+    <Btn :text="'blue'" @clickEvent="clickParent"/>
+    <Btn :text="'red'"/>
+    <Btn/>
   </footer>
 </template>
 
 <script>
+import Btn from '@/components/Button.vue'
 export default {
+  components:{
+    Btn
+  },
   data(){
     return {}
   },
@@ -38,6 +44,9 @@ export default {
             id: 10
           }
         })
+    },
+    clickParent(text){
+      console.log('clickParent:' + text);
     }
   }
 } 
