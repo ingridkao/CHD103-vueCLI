@@ -19,35 +19,53 @@
           <div class="demo-carousel">4</div>
       </CarouselItem>
   </Carousel> -->
-  <div v-if="loading" class="loading">loading</div>
-  <div v-else class="wrap" >
-    <div 
-      v-for="prod in products" 
-      :key="prod.id"
-      class="card"
-    >
-      <div v-if="prod">
-          <p class="cardName">{{prod.title}}</p>
-          <img :src="prod.image" :alt="prod.title">
-          <p>$ {{prod.price}}</p>
-          <p v-if="prod.rating">
-              <span v-for="star in parseInt(prod.rating.rate)">
-                  🌟
-              </span>
-              {{prod.rating.count}}
-          </p>
+  <transition v-if="loading">
+    <LoadingBox/>
+  </transition>
+    <div v-else class="wrap" >
+      <div 
+        v-for="prod in productDisplay" 
+        :key="prod.id"
+        class="card"
+      >
+        <template v-if="prod" >
+            <p class="cardName">{{prod.title}}</p>
+            <div class="cardImg">
+              <img :src="prod.image" :alt="prod.title">
+            </div>
+            <p>$ {{prod.price}}</p>
+            <p v-if="prod.rating">
+                <span v-for="star in parseInt(prod.rating.rate)">
+                    🌟
+                </span>
+                {{prod.rating.count}}
+            </p>
+        </template>
       </div>
+      <Page 
+        :total="products.length" 
+        show-sizer
+        :page-size-opts="[4, 8, 24]"
+        :page-size="pageSize"
+        @on-change="updatePage"
+      />
     </div>
-  </div>
 </template>
 
 <script>
+  import LoadingBox from '@/components/Loading.vue' 
   export default {
+    components: {
+      LoadingBox: LoadingBox
+    },
     data () {
       return {
           value: 0,
           products: [],
-          loading: true
+          productDisplay: [],
+          loading: true,
+          pageSize: 4,
+          currentPage: 1,
       }
     },
     methods: {
@@ -57,7 +75,16 @@
         .then(json=>{
           this.loading = false
           this.products = json
+          this.updatePage(1)
         })
+      },
+      updatePage(page){
+        // console.log(page);
+        this.currentPage = page
+        this.productDisplay = this.products
+        const startIdx = (this.currentPage - 1) * this.pageSize
+        const endIdx = startIdx + this.pageSize
+        this.productDisplay = this.products.slice(startIdx, endIdx);
       }
     },
     mounted() {
@@ -71,14 +98,24 @@
   height: 10rem;
   background-color: #ddd;
 } */
-.loading{
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(255, 255, 255, 0.8);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2rem;
+.wrap{
+  display: inline-flex;
+  flex-wrap: wrap;
+  height: 80vh;
+  overflow: scroll;
+}
+.card{
+    width: 10rem;
+    border: 1px solid #ddd;
+    margin: .5rem;
+    padding: .5rem;
+}
+.cardImg{
+  overflow: hidden;
+  height: 10rem;
+}
+img{
+  object-fit: contain;
+  height: 100%;
 }
 </style>
