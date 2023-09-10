@@ -6,7 +6,9 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: HomeView,
+    meta: { requiresAuth: true }  // 加入meta屬性
+
   },
   {
     path: '/about',
@@ -22,10 +24,28 @@ const routes = [
     // component: LoginView
     component: () => import(/* webpackChunkName: "login" */ '@/views/LoginView.vue')
   },
+  /**
+   * import User from '@/views/User/UserIndex.vue'
+      import UserHome from '@/views/User/UserHome.vue'
+      import UserProfile from '@/views/User/UserProfile.vue'
+   * 
+   */
   {
     path: '/product',
-    name: 'product',
-    component: () => import(/* webpackChunkName: "product" */ '@/views/ProductView.vue')
+    name: 'products',
+    component: () => import(/* webpackChunkName: "product" */ '@/views/product/ProductView.vue'),
+    children: [
+			{ 
+				// /user/:username
+				path: '', 
+        component: () => import(/* webpackChunkName: "product" */ '@/views/product/ProductView.vue'),
+			},
+      {
+        // /user/:username/profile
+        path: 'profile',
+        component: () => import(/* webpackChunkName: "product" */ '@/views/product/ProductView.vue'),
+      }
+    ]
   },
   { 
     path: '/:pathMatch(.*)*', 
@@ -43,4 +63,31 @@ const router = createRouter({
   },
 })
 
+router.beforeEach((to, from) => {
+  // 檢查用户是否已登录 並 ❗️避免無限重定向
+	if(to.meta.requiresAuth && to.name !== 'Login'){
+    // const api = `${process.env.APIPATH}/api/user/check`
+    // this.axios.post(api).then((response) => {
+    //   if(response.data.success){
+		// 		return true
+    //   }else{
+		// 		// 將用户重定向到login页面
+		// 		// return { name: 'Login' }
+		// 		return '/login'
+		// 	}
+    // }.catch(error=>{
+		// 	 // 返回 false 以取消导航
+		// 	 return false
+		// })
+
+    const isLogin = localStorage.getItem('token')
+    if(isLogin){
+      return true
+    }else{
+      return '/login'
+    }
+  } else {
+    return true
+  }
+})
 export default router

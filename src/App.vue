@@ -8,7 +8,8 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
       <router-link to="/login">Login</router-link> |
-      <router-link to="/product">Product</router-link>
+      <router-link to="/product">Product</router-link> |
+      <button @click="logout">logout</button> 
     </nav>
     <button>
       <Button>漢堡</Button>
@@ -20,31 +21,32 @@
   </main>
 
   <footer>
-    sdfdsfdsfdsfdsfsfsdfsd
+    footer
   </footer>
 </template>
 
+<script>
+export default {
+  data(){
+    return {}
+  },
+	methods:{
+    logout(){
+      // localStorage.removeItem('token')
+      // this.$router.push('/login')
+      this.$router.push({
+        // path: '/product',
+        name: 'products',
+        query: {
+          q: 1,
+          type: 'A'
+        }
+      })
+  	}
+  }
+} 
+</script>
+
 <style lang="scss">
 @import "@/assets/scss/main.scss";
-header{
-  position: fixed;
-  top:0;
-  left: 0;
-
-  width: 100%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  .logo{
-    width: 4rem;
-    border-radius: 50%;
-    overflow: hidden;
-    img{
-      width: 100%;
-    }
-  }
-}
-main{
-  margin-top: 10rem;
-}
 </style>

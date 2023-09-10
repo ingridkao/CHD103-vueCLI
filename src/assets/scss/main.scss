@@ -1,20 +1,42 @@
 #app {
-    font-family: Avenir, Helvetica, Arial, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-align: center;
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+nav {
+  padding: 30px;
+
+  a {
+    font-weight: bold;
     color: #2c3e50;
-  }
-  
-  nav {
-    padding: 30px;
-  
-    a {
-      font-weight: bold;
-      color: #2c3e50;
-  
-      &.router-link-exact-active {
-        color: $priveColor;
-      }
+
+    &.router-link-exact-active {
+      color: $priveColor;
     }
   }
+}
+
+header{
+  position: fixed;
+  top:0;
+  left: 0;
+
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  .logo{
+    width: 4rem;
+    border-radius: 50%;
+    overflow: hidden;
+    img{
+      width: 100%;
+    }
+  }
+}
+main{
+  margin-top: 10rem;
+}
