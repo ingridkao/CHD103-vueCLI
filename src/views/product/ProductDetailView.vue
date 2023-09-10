@@ -1,17 +1,12 @@
 <template>
-    <div class="product">
+    <!-- <div class="product">
       <h1>
         {{ $route.params.id }}
       </h1>
-    </div>
+    </div> -->
     <div v-if="loading" class="loading">loading</div>
     <div v-else class="wrap" >
-      <div 
-        v-for="prod in products" 
-        :key="prod.id"
-        class="card"
-      >
-      </div>
+      {{ products }}
     </div>
   </template>
   
@@ -19,20 +14,26 @@
     export default {
       data () {
         return {
-            value: 0,
-            products: [],
+            products: {},
             loading: true
         }
       },
       methods: {
         fetchProd(){
-          fetch('https://fakestoreapi.com/products/1')
+          this.loading = true
+          // const target = json.find(item=>item.id == this.$route.params.id)
+          fetch(`https://fakestoreapi.com/products/${this.$route.params.id}`)
           .then(res=>res.json())
           .then(json=>{
-            console.log(json);
             this.loading = false
-            // this.products = json
+            this.products = json
           })
+        }
+      },
+      watch: {
+        '$route.params.id'(newVal){
+          // console.log(newVal);
+          this.fetchProd()
         }
       },
       mounted() {
@@ -40,17 +41,4 @@
       }
     }
   </script>
-  <style>
-  .loading{
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgba(255, 255, 255, 0.8);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    top: 0;
-  }
-  </style>
   

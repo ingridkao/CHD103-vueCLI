@@ -10,7 +10,7 @@
       <router-link to="/login">Login</router-link> |
       <router-link to="/product">Product</router-link> |
       <button @click="logout">logout</button> 
-      <Button @click="goToProduct(1)">商品一</Button>
+      <Button @click="goToProduct(1)">商品10</Button>
     </nav>
   </header>
   <main>
@@ -33,11 +33,11 @@ export default {
   	},
     goToProduct(productId){
       this.$router.push({
-        name: 'products',
-        query: {
-          id: productId
-        }
-      })
+          name: 'productDetail',
+          params: {
+            id: 10
+          }
+        })
     }
   }
 } 
