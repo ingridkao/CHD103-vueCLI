@@ -32,19 +32,12 @@ const routes = [
   {
     path: '/product',
     name: 'products',
-    component: () => import(/* webpackChunkName: "product" */ '@/views/product/ProductView.vue'),
-    children: [
-			{ 
-				// /user/:username
-				path: '', 
-        component: () => import(/* webpackChunkName: "product" */ '@/views/product/ProductView.vue'),
-			},
-      {
-        // /user/:username/profile
-        path: 'profile',
-        component: () => import(/* webpackChunkName: "product" */ '@/views/product/ProductView.vue'),
-      }
-    ]
+    component: () => import(/* webpackChunkName: "products" */ '@/views/product/ProductView.vue')
+  },
+  {
+    path: '/productDetail/:id',
+    name: 'productDetail',
+    component: () => import(/* webpackChunkName: "productDetail" */ '@/views/product/ProductDetailView.vue')
   },
   { 
     path: '/:pathMatch(.*)*', 
