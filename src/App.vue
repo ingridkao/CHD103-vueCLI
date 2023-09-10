@@ -10,16 +10,12 @@
       <router-link to="/login">Login</router-link> |
       <router-link to="/product">Product</router-link> |
       <button @click="logout">logout</button> 
+      <Button @click="goToProduct(1)">商品一</Button>
     </nav>
-    <button>
-      <Button>漢堡</Button>
-    </button>
   </header>
-
   <main>
     <router-view/>
   </main>
-
   <footer>
     footer
   </footer>
@@ -32,17 +28,17 @@ export default {
   },
 	methods:{
     logout(){
-      // localStorage.removeItem('token')
-      // this.$router.push('/login')
+      localStorage.removeItem('token')
+      this.$router.push('/login')
+  	},
+    goToProduct(productId){
       this.$router.push({
-        // path: '/product',
         name: 'products',
         query: {
-          q: 1,
-          type: 'A'
+          id: productId
         }
       })
-  	}
+    }
   }
 } 
 </script>

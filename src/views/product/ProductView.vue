@@ -27,6 +27,7 @@
         v-for="prod in productDisplay" 
         :key="prod.id"
         class="card"
+        @click="goToProduct(prod)"
       >
         <template v-if="prod" >
             <p class="cardName">{{prod.title}}</p>
@@ -85,6 +86,15 @@
         const startIdx = (this.currentPage - 1) * this.pageSize
         const endIdx = startIdx + this.pageSize
         this.productDisplay = this.products.slice(startIdx, endIdx);
+      },
+      goToProduct(product){
+        // console.log(product);
+        this.$router.push({
+          name: 'productDetail',
+          params: {
+            id: product.id
+          }
+        })
       }
     },
     mounted() {

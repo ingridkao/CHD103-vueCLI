@@ -1,7 +1,7 @@
 <template>
     <div class="product">
       <h1>
-        {{ $route.params }}
+        {{ $route.params.id }}
       </h1>
     </div>
     <div v-if="loading" class="loading">loading</div>
@@ -26,11 +26,12 @@
       },
       methods: {
         fetchProd(){
-          fetch('https://fakestoreapi.com/products')
+          fetch('https://fakestoreapi.com/products/1')
           .then(res=>res.json())
           .then(json=>{
+            console.log(json);
             this.loading = false
-            this.products = json
+            // this.products = json
           })
         }
       },
